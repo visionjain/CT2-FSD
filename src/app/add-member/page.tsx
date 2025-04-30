@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
+import Image from 'next/image';
 
 const AddMember = () => {
   const router = useRouter();
@@ -76,7 +77,7 @@ const AddMember = () => {
         formDataToSend.append('image', imageFile);
       }
       
-      const response = await axios.post('/api/members', formDataToSend);
+      await axios.post('/api/members', formDataToSend);
       
       toast({
         title: "Success!",
@@ -85,11 +86,14 @@ const AddMember = () => {
       
       router.push('/members');
       
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error adding member:', error);
       
-      // Check for the specific email exists error
-      if (error.response?.status === 409) {
+      const isAxiosError = (error: unknown): error is { response?: { status?: number, data?: { error?: string } } } => {
+        return typeof error === 'object' && error !== null && 'response' in error;
+      };
+      
+      if (isAxiosError(error) && error.response?.status === 409) {
         setErrors({
           ...errors,
           email: "This email is already registered with another member."
@@ -101,8 +105,10 @@ const AddMember = () => {
           variant: "destructive",
         });
       } else {
-        // For other errors
-        const errorMsg = error.response?.data?.error || "Failed to add member. Please try again.";
+        const errorMsg = isAxiosError(error) && error.response?.data?.error 
+          ? error.response.data.error 
+          : "Failed to add member. Please try again.";
+          
         toast({
           title: "Error",
           description: errorMsg,
@@ -218,10 +224,11 @@ const AddMember = () => {
                 {imagePreview ? (
                   <div className="flex flex-col items-center">
                     <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-emerald-100 shadow-sm">
-                      <img 
+                      <Image 
                         src={imagePreview} 
                         alt="Preview" 
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
                       />
                     </div>
                     <p className="text-xs text-emerald-600 mt-2">Image Preview</p>
