@@ -5,10 +5,14 @@ import Member from '@/models/memberSchema';
 // Connect to the database
 connect();
 
-export async function GET(
-    request: NextRequest,
-    { params }: { params: { id: string } }
-) {
+// Fix the type definition for route parameters
+type Params = {
+  params: {
+    id: string;
+  };
+};
+
+export async function GET(request: NextRequest, { params }: Params) {
     try {
         const { id } = params;
         
@@ -36,10 +40,8 @@ export async function GET(
     }
 }
 
-export async function DELETE(
-    request: NextRequest,
-    { params }: { params: { id: string } }
-) {
+// Also fix the DELETE function with the same type
+export async function DELETE(request: NextRequest, { params }: Params) {
     try {
         const { id } = params;
         
