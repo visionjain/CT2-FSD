@@ -13,9 +13,10 @@ export async function GET() {
             success: true,
             data: members
         });
-    } catch (error: any) {
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
         return NextResponse.json(
-            { error: error.message },
+            { error: errorMessage },
             { status: 500 }
         );
     }
@@ -78,9 +79,9 @@ export async function POST(request: NextRequest) {
                 success: true,
                 data: newMember
             });
-        } catch (innerError: any) {
+        } catch (innerError: unknown) {
             // Check specifically for MongoDB duplicate key error
-            if (innerError.code === 11000) {
+            if (innerError && typeof innerError === 'object' && 'code' in innerError && innerError.code === 11000) {
                 return NextResponse.json(
                     { error: 'Email already exists. Please use a different email address.' },
                     { status: 409 }
@@ -88,16 +89,18 @@ export async function POST(request: NextRequest) {
             }
             
             console.error("Image processing or database error:", innerError);
+            const errorMessage = innerError instanceof Error ? innerError.message : 'Unknown error occurred';
             return NextResponse.json(
-                { error: `Error saving member: ${innerError.message}` },
+                { error: `Error saving member: ${errorMessage}` },
                 { status: 500 }
             );
         }
         
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("Outer API error:", error);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
         return NextResponse.json(
-            { error: `Server error: ${error.message}` },
+            { error: `Server error: ${errorMessage}` },
             { status: 500 }
         );
     }

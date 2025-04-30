@@ -99,7 +99,7 @@ const Home = () => {
         {/* Reduced spacing for bottom content */}
         <h2 className="text-lg lg:text-xl font-bold mb-2">Manage Your Team with Ease</h2>
         <p className="text-gray-600 mb-4 text-sm lg:text-base">
-          MITRA helps you organize team members and keep everyone's information in one place.
+          MITRA helps you organize team members and keep everyone&apos;s information in one place.
           Track roles, contact details, and member profiles with our intuitive interface.
         </p>
         

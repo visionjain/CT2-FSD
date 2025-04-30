@@ -93,7 +93,7 @@ const MembersPage = () => {
 
   useEffect(() => {
     fetchMembers();
-  }, [toast]);
+  }, [/* fetchMembers depends on toast, so we can't include it directly */]);  // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!searchTerm.trim()) {
@@ -249,7 +249,7 @@ const MembersPage = () => {
               </svg>
               <p className="text-xl text-gray-600 mb-2">No matches found</p>
               <p className="text-gray-500 max-w-md mx-auto mb-6">
-                No team members match your search for "<span className="font-medium text-emerald-600">{searchTerm}</span>".
+                No team members match your search for &quot;<span className="font-medium text-emerald-600">{searchTerm}</span>&quot;.
               </p>
               <Button variant="outline" onClick={() => setSearchTerm('')}>
                 Clear Search
