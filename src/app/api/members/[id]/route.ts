@@ -1,20 +1,17 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { connect } from '@/dbConfig/dbConfig';
 import Member from '@/models/memberSchema';
 
 // Connect to the database
 connect();
 
-// Fix the type definition for route parameters
-type Params = {
-  params: {
-    id: string;
-  };
-};
-
-export async function GET(request: NextRequest, { params }: Params) {
+// Correct typing for Next.js App Router route handlers
+export async function GET(
+    request: Request,
+    { params }: { params: { id: string } }
+) {
     try {
-        const { id } = params;
+        const id = params.id;
         
         const member = await Member.findById(id);
         
@@ -40,10 +37,13 @@ export async function GET(request: NextRequest, { params }: Params) {
     }
 }
 
-// Also fix the DELETE function with the same type
-export async function DELETE(request: NextRequest, { params }: Params) {
+// Make the same correction for the DELETE handler
+export async function DELETE(
+    request: Request,
+    { params }: { params: { id: string } }
+) {
     try {
-        const { id } = params;
+        const id = params.id;
         
         const deletedMember = await Member.findByIdAndDelete(id);
         
