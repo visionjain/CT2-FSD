@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import { Toaster } from "@/components/ui/toaster"
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import CustomHead from '@/components/CustomHead'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,6 +24,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="overflow-x-hidden">
+      <head>
+        <CustomHead />
+      </head>
       <body className={`${inter.className} flex flex-col min-h-screen max-h-screen overflow-x-hidden`}>
         <Navbar />
         <main className="flex-grow flex flex-col overflow-y-auto">
