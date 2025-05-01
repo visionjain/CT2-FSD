@@ -10,6 +10,10 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'MITRA - Team Management',
   description: 'Manage your team members with ease',
+  icons: {
+    icon: '/mitra.png', // This is the main favicon (your mitra.png)
+    apple: '/mitra.png', // Also use it for Apple devices
+  },
 }
 
 export default function RootLayout({
