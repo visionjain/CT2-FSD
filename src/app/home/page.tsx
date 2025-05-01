@@ -36,7 +36,7 @@ const Home = () => {
               <p className="text-gray-700 font-medium">Course Faculty:</p>
               <p className="text-emerald-700 font-semibold">Dr. Jagadish Kumar N</p>
               <p className="text-sm text-gray-600">Assistant Professor</p>
-              <p className="text-sm text-gray-600">Department of Data Science and Business Studies</p>
+              <p className="text-sm text-gray-600">Department of Data Science and Business Systems</p>
             </div>
           </div>
           
